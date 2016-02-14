@@ -1,37 +1,17 @@
 import { Socket } from "phoenix";
-import uuid from "uuid";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
 import { createStore } from "redux";
 import { connect, Provider } from "react-redux";
-import Immutable from "immutable";
 import Color from "color";
 
-import * as constants from "./constants";
 import { userJoin, userMove, userLeave } from "./actions";
+import reducer from "./reducer";
 
 // Redux
 
-const initialState = {
-	me: uuid.v4(),
-	others: Immutable.Map()
-};
 
-// (state, action) => new state subtree to be merged in with state
-const actionsMap = {
-	[constants.USER_JOIN]: ({ others, me }, { user }) => user !== me && { others: others.set(user, { x: -100, y: -100 }) },
-	[constants.USER_LEAVE]: ({ others, me }, { user }) => user !== me && { others: others.delete(user) },
-	[constants.USER_MOVE]: ({ others, me }, { user, coords }) => user !== me && { others: others.set(user, coords) }
-}
-
-function reducer(state = initialState, action) {
-	const fn = actionsMap[action.type];
-	if (!fn) {
-		return state;
-	}
-	return Object.assign({}, state, fn(state, action));
-}
 
 const store = createStore(reducer);
 // store.subscribe(() => console.log(store.getState().others.toJS()));
