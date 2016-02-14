@@ -1,0 +1,30 @@
+{
+	"root": true,
+	"extends": "eslint:recommended",
+	"plugins": [
+		"react",
+		"babel"
+	],
+	"parser": "babel-eslint",
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaVersion": 6,
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"globals": {
+		"window": true,
+		"document": true,
+		"console": true,
+		"React": true
+	},
+	"env": {
+		"es6": true
+	},
+	"rules": {
+		// can't get eslint-plugin-react to work
+		"no-unused-vars": [0] ,
+		"no-class-assign": [0]
+	}
+}
