@@ -43,8 +43,10 @@ class Canvas extends Component {
 	componentWillReceiveProps({ width, height, draws }) {
 		if (width !== this.props.width
 			|| height !== this.props.height) {
-			this.canvas.innerWidth = width;
-			this.canvas.innerHeight = height;
+			this.canvas.width = width;
+			this.canvas.height = height;
+			// must redraw canvas after resize
+			this.draw(this.props.draws);
 		}
 
 		if (draws !== this.props.draws) {
