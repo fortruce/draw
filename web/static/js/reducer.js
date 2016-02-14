@@ -12,8 +12,9 @@ const initialState = {
 const actionsMap = {
 	[constants.USER_JOIN]: ({ others, me }, { user }) => user !== me && { others: others.set(user, { x: -100, y: -100 }) },
 	[constants.USER_LEAVE]: ({ others, me }, { user }) => user !== me && { others: others.delete(user) },
-	[constants.USER_MOVE]: ({ others, me }, { user, coords }) => user !== me && { others: others.set(user, coords) },
 
+	// USER_MOVE & DRAW are filtered at the server level to ensure user doesn't see their own broadcasted events
+	[constants.USER_MOVE]: ({ others, me }, { user, coords }) => ({ others: others.set(user, coords) }),
 	[constants.DRAW]: ({ draws }, { start, end, color }) => ({ draws: draws.push({ start, end, color }) })
 };
 
