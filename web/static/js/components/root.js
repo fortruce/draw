@@ -5,12 +5,10 @@ import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 import Color from "color";
 
-import { userJoin, userMove, userLeave } from "./actions";
-import store from "./store";
+import { userJoin, userMove, userLeave } from "../actions";
+import store from "../store";
 
 // Redux
-
-
 
 const { me } = store.getState();
 
@@ -122,7 +120,7 @@ let Others = ({ others }) => {
 }
 Others = connect(state => ({ others: state.others }))(Others);
 
-class App extends Component {
+export default class Root extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { width: window.innerWidth, height: window.innerHeight };
@@ -153,12 +151,3 @@ class App extends Component {
 		);
 	}
 }
-
-ReactDOM.render(
-	<Provider store={ store }>
-		<App />
-	</Provider>,
-	document.getElementById("container")
-);
-
-export default socket;
