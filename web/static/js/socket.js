@@ -8,23 +8,10 @@ import { connect, Provider } from "react-redux";
 import Immutable from "immutable";
 import Color from "color";
 
+import * as constants from "./constants";
+import { userJoin, userMove, userLeave } from "./actions";
+
 // Redux
-
-const USER_JOIN = "USER_JOIN";
-const USER_LEAVE = "USER_LEAVE";
-const USER_MOVE = "USER_MOVE";
-
-function userJoin(user) {
-	return { type: USER_JOIN, user };
-}
-
-function userLeave(user) {
-	return { type: USER_LEAVE, user };
-}
-
-function userMove(user, coords) {
-	return { type: USER_MOVE, user, coords };
-}
 
 const initialState = {
 	me: uuid.v4(),
@@ -33,9 +20,9 @@ const initialState = {
 
 // (state, action) => new state subtree to be merged in with state
 const actionsMap = {
-	[USER_JOIN]: ({ others, me }, { user }) => user !== me && { others: others.set(user, { x: -100, y: -100 }) },
-	[USER_LEAVE]: ({ others, me }, { user }) => user !== me && { others: others.delete(user) },
-	[USER_MOVE]: ({ others, me }, { user, coords }) => user !== me && { others: others.set(user, coords) }
+	[constants.USER_JOIN]: ({ others, me }, { user }) => user !== me && { others: others.set(user, { x: -100, y: -100 }) },
+	[constants.USER_LEAVE]: ({ others, me }, { user }) => user !== me && { others: others.delete(user) },
+	[constants.USER_MOVE]: ({ others, me }, { user, coords }) => user !== me && { others: others.set(user, coords) }
 }
 
 function reducer(state = initialState, action) {
