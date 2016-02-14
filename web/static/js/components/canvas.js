@@ -1,6 +1,13 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class Canvas extends Component {
+import { uuidToColor } from "../helpers";
+
+class Canvas extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { color: uuidToColor(props.me) };
+	}
 	handleMouseDown = ({ clientX, clientY }) => {
 		if (!this._drawing) {
 			this._drawing = true;
@@ -45,8 +52,13 @@ export default class Canvas extends Component {
 				ref={ ref => {
 					this.canvas = ref;
 					this.ctx = this.canvas ? this.canvas.getContext("2d") : null;
+					if (this.ctx) {
+						this.ctx.strokeStyle = this.state.color;
+					}
 				}}>
 			</canvas>
 		);
 	}
 }
+
+export default connect(state => ({ me: state.me }))(Canvas);
