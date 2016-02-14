@@ -17,7 +17,8 @@ defmodule Draw.RoomChannel do
 		{:noreply, socket}
 	end
 
-	intercept ["user:move"]
+	# filter out sending message to the broadcasting user
+	intercept ["user:move", "draw"]
 	def handle_out(event, message, %{assigns: %{user: out_user}} = socket) do
 		if out_user == message.user do
 			{:noreply, socket}

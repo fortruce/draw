@@ -26,7 +26,7 @@ class Canvas extends Component {
 	handleMouseMove = ({ clientX, clientY }) => {
 		if (this._drawing) {
 			this.end = { x: clientX, y: clientY };
-			this.props.dispatch(draw(this.start, this.end, this.state.color));
+			this.props.dispatch(draw(this.start, this.end, this.state.color, true));
 			this.start = this.end;
 		}
 	}

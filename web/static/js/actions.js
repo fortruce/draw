@@ -12,9 +12,9 @@ export function userMove(user, coords) {
 	return { type: constants.USER_MOVE, user, coords };
 }
 
-export function draw(start, end, color) {
+export function draw(start, end, color, me = false) {
 	return {
 		type: constants.DRAW,
-		start, end, color
+		start, end, color, me
 	};
 }
