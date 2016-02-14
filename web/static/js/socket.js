@@ -2,19 +2,16 @@ import { Socket } from "phoenix";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 
-import { createStore } from "redux";
 import { connect, Provider } from "react-redux";
 import Color from "color";
 
 import { userJoin, userMove, userLeave } from "./actions";
-import reducer from "./reducer";
+import store from "./store";
 
 // Redux
 
 
 
-const store = createStore(reducer);
-// store.subscribe(() => console.log(store.getState().others.toJS()));
 const { me } = store.getState();
 
 let socket = new Socket("/socket", { params: { user: me } });
