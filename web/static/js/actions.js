@@ -11,3 +11,10 @@ export function userLeave(user) {
 export function userMove(user, coords) {
 	return { type: constants.USER_MOVE, user, coords };
 }
+
+export function draw(start, end, color) {
+	return {
+		type: constants.DRAW,
+		start, end, color
+	};
+}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import { draw } from "../actions";
 import { uuidToColor } from "../helpers";
 
 class Canvas extends Component {
@@ -8,37 +9,52 @@ class Canvas extends Component {
 		super(props);
 		this.state = { color: uuidToColor(props.me) };
 	}
+
 	handleMouseDown = ({ clientX, clientY }) => {
 		if (!this._drawing) {
 			this._drawing = true;
-			this.ctx.beginPath();
-			this.ctx.moveTo(clientX, clientY);
+			this.start = { x: clientX, y: clientY };
 		}
 	}
 	handleMouseUp = ({ clientX, clientY }) => {
 		if (this._drawing) {
 			this._drawing = false;
-			this.ctx.lineTo(clientX, clientY);
-			this.ctx.stroke();
-			this.ctx.closePath();
+			this.end = { x: clientX, y: clientY };
+			this.props.dispatch(draw(this.start, this.end, this.state.color));
 		}
 	}
 	handleMouseMove = ({ clientX, clientY }) => {
 		if (this._drawing) {
-			this.ctx.lineTo(clientX, clientY);
+			this.end = { x: clientX, y: clientY };
+			this.props.dispatch(draw(this.start, this.end, this.state.color));
+			this.start = this.end;
+		}
+	}
+
+	draw(draws) {
+		for (let { start, end, color } of draws) {
+			this.ctx.beginPath();
+			this.ctx.strokeStyle = color;
+			this.ctx.moveTo(start.x, start.y);
+			this.ctx.lineTo(end.x, end.y);
 			this.ctx.stroke();
 		}
 	}
-	componentWillReceiveProps({ width, height }) {
+	componentWillReceiveProps({ width, height, draws }) {
 		if (width !== this.props.width
 			|| height !== this.props.height) {
 			this.canvas.innerWidth = width;
 			this.canvas.innerHeight = height;
 		}
+
+		if (draws !== this.props.draws) {
+			this.draw(draws.slice(this.props.draws.count()));
+		}
 	}
 	shouldComponentUpdate() {
 		return false;
 	}
+
 	render() {
 		const { width, height } = this.props;
 		return (
@@ -61,4 +77,4 @@ class Canvas extends Component {
 	}
 }
 
-export default connect(state => ({ me: state.me }))(Canvas);
+export default connect(state => ({ me: state.me, draws: state.draws }))(Canvas);
