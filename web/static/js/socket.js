@@ -16,13 +16,10 @@ channel.join()
 channel.on("user:move", ({ user, body: coords }) => store.dispatch(userMove(user, coords)));
 channel.on("user:join", ({ user }) => store.dispatch(userJoin(user)));
 channel.on("user:leave", ({ user }) => store.dispatch(userLeave(user)));
-channel.on("draw", ({ body: { start, end, color } }) => {
-	console.log("drawing");
-	store.dispatch(draw(start, end, color));
-});
+channel.on("draw", ({ body: { start, end, color } }) => store.dispatch(draw(start, end, color)));
 
 document.addEventListener("mousemove", ({ clientX, clientY }) => {
-	channel.push("user:move", { body: { x: clientX / window.innerWidth, y: clientY / window.innerHeight } });
+	channel.push("user:move", { body: { x: clientX , y: clientY } });
 });
 
 export default socket;
